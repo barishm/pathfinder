@@ -7,6 +7,15 @@ public class LoggedUser {
     private String username;
     private String email;
     private String fullName;
+    private boolean isLogged;
+
+    public boolean isLogged() {
+        return isLogged;
+    }
+
+    public void setLogged(boolean logged) {
+        isLogged = logged;
+    }
 
     public String getUsername() {
         return username;
@@ -36,5 +45,6 @@ public class LoggedUser {
         setUsername(null);
         setFullName(null);
         setEmail(null);
+        setLogged(false);
     }
 }

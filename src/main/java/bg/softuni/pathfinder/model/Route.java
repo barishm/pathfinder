@@ -95,4 +95,8 @@ public class Route {
     public void setVideoUrl(String videoUrl) {
         this.videoUrl = videoUrl;
     }
+
+    public void addCategories(Set<Category> categories) {
+        this.categories.addAll(categories);
+    }
 }

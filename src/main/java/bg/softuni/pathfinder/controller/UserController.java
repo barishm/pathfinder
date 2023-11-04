@@ -29,6 +29,7 @@ public class UserController {
         return new ModelAndView("login");
     }
 
+
     @PostMapping("/login")
     public ModelAndView login(UserLoginDTO userLoginDTO) {
         boolean isLogged = userService.login(userLoginDTO);
@@ -43,13 +44,13 @@ public class UserController {
         return new ModelAndView("register");
     }
 
-    @PostMapping("register")
+    @PostMapping("/register")
     public ModelAndView register(UserRegisterDTO userRegisterDTO) {
         userService.save(userRegisterDTO);
         return new ModelAndView("redirect:login");
     }
 
-    @PostMapping("logout")
+    @PostMapping("/logout")
     public ModelAndView logout(){
         userService.logout();
         return new ModelAndView("redirect:/");
