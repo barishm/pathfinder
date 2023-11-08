@@ -1,7 +1,9 @@
 package bg.softuni.pathfinder.service.impl;
 
+import bg.softuni.pathfinder.exeptions.UserNotFoundException;
 import bg.softuni.pathfinder.model.User;
 import bg.softuni.pathfinder.model.dto.UserLoginDTO;
+import bg.softuni.pathfinder.model.dto.UserProfileViewModel;
 import bg.softuni.pathfinder.model.dto.UserRegisterDTO;
 import bg.softuni.pathfinder.repository.UserRepository;
 import bg.softuni.pathfinder.service.UserService;
@@ -43,7 +45,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean login(UserLoginDTO userLoginDTO) {
-        User user = this.userRepository.findByUsername(userLoginDTO.getUsername());
+        User user = this.userRepository.findByUsername(userLoginDTO.getUsername()).orElseThrow(() -> new UserNotFoundException("User not found!"));
         if(user == null){
             throw new IllegalArgumentException("User with that username is not present");
         }
@@ -63,4 +65,16 @@ public class UserServiceImpl implements UserService {
     public void logout() {
         loggedUser.reset();
     }
+
+    @Override
+    public User getLoggedUser() {
+        return userRepository.findByUsername(loggedUser.getUsername()).orElseThrow(() -> new UserNotFoundException("User not found!"));
+    }
+
+    @Override
+    public UserProfileViewModel getUserProfile() {
+        User user = userRepository.findByUsername(loggedUser.getUsername()).orElseThrow(() -> new UserNotFoundException("User not found!"));
+        return modelMapper.map(user, UserProfileViewModel.class);
+    }
+
 }

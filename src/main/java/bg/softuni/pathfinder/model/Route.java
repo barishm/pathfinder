@@ -23,6 +23,8 @@ public class Route {
     private User author;
     @Column(name = "video_url")
     private String videoUrl;
+    @Column(name = "image_url")
+    private String imageUrl;
 
     @ManyToMany
     @JoinTable
@@ -98,5 +100,14 @@ public class Route {
 
     public void addCategories(Set<Category> categories) {
         this.categories.addAll(categories);
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public Route setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+        return this;
     }
 }

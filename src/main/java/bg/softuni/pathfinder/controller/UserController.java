@@ -2,6 +2,7 @@ package bg.softuni.pathfinder.controller;
 
 import bg.softuni.pathfinder.model.User;
 import bg.softuni.pathfinder.model.dto.UserLoginDTO;
+import bg.softuni.pathfinder.model.dto.UserProfileViewModel;
 import bg.softuni.pathfinder.model.dto.UserRegisterDTO;
 import bg.softuni.pathfinder.service.UserService;
 import org.springframework.stereotype.Controller;
@@ -54,6 +55,14 @@ public class UserController {
     public ModelAndView logout(){
         userService.logout();
         return new ModelAndView("redirect:/");
+    }
+
+    @GetMapping("/profile")
+    public ModelAndView profile() {
+        UserProfileViewModel userProfileViewModel = userService.getUserProfile();
+        ModelAndView modelAndView = new ModelAndView("profile");
+        modelAndView.addObject("userProfileViewModel",userProfileViewModel);
+        return modelAndView;
     }
 
 }
