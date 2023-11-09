@@ -2,11 +2,15 @@ package bg.softuni.pathfinder.model.dto;
 
 import bg.softuni.pathfinder.model.CategoryNames;
 import bg.softuni.pathfinder.model.Level;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 import java.util.Set;
 
 public class AddRouteDTO {
+    @Size(min = 3,message = "Name length must be more than 3 characters")
     private String name;
+    @Size(min = 3, message = "Description length must be more than 5 character")
     private String description;
     private Level level;
     private String videoUrl;

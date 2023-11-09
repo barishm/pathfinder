@@ -1,10 +1,12 @@
 package bg.softuni.pathfinder.service.impl;
 
+import bg.softuni.pathfinder.exeptions.RouteNotFoundException;
 import bg.softuni.pathfinder.model.Category;
 import bg.softuni.pathfinder.model.Route;
 import bg.softuni.pathfinder.model.User;
 import bg.softuni.pathfinder.model.dto.AddRouteDTO;
-import bg.softuni.pathfinder.model.dto.RouteGetAllViewModel;
+import bg.softuni.pathfinder.model.dto.RouteDetailsViewModel;
+import bg.softuni.pathfinder.model.dto.RouteViewModel;
 import bg.softuni.pathfinder.repository.CategoryRepository;
 import bg.softuni.pathfinder.repository.RouteRepository;
 import bg.softuni.pathfinder.service.RouteService;
@@ -44,8 +46,19 @@ public class RouteServiceImpl implements RouteService {
     }
 
     @Override
-    public List<RouteGetAllViewModel> getAll() {
+    public List<RouteViewModel> getAll() {
         return routeRepository.findAll().stream()
-                .map(route -> modelMapper.map(route,RouteGetAllViewModel.class)).toList();
+                .map(route -> modelMapper.map(route, RouteViewModel.class)).toList();
+    }
+
+    @Override
+    public RouteDetailsViewModel getDetails(Long id) {
+        Route route = routeRepository.findById(id)
+                .orElseThrow(() -> new RouteNotFoundException("Route not found"));
+
+        RouteDetailsViewModel routeDetailsViewModel = modelMapper.map(route, RouteDetailsViewModel.class);
+        routeDetailsViewModel.setAuthorName(route.getAuthor().getFullName());
+
+        return routeDetailsViewModel;
     }
 }

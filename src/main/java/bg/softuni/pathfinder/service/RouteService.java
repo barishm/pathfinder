@@ -1,8 +1,8 @@
 package bg.softuni.pathfinder.service;
 
-import bg.softuni.pathfinder.model.Route;
 import bg.softuni.pathfinder.model.dto.AddRouteDTO;
-import bg.softuni.pathfinder.model.dto.RouteGetAllViewModel;
+import bg.softuni.pathfinder.model.dto.RouteDetailsViewModel;
+import bg.softuni.pathfinder.model.dto.RouteViewModel;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,5 +11,7 @@ import java.util.List;
 public interface RouteService {
     void add(AddRouteDTO addRouteDTO);
 
-    List<RouteGetAllViewModel> getAll();
+    List<RouteViewModel> getAll();
+
+    RouteDetailsViewModel getDetails(Long id);
 }

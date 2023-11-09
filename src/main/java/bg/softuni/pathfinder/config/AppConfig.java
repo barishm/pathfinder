@@ -1,7 +1,9 @@
 package bg.softuni.pathfinder.config;
 
 import bg.softuni.pathfinder.model.Level;
+import bg.softuni.pathfinder.model.Route;
 import bg.softuni.pathfinder.model.User;
+import bg.softuni.pathfinder.model.dto.RouteDetailsViewModel;
 import bg.softuni.pathfinder.service.RoleService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.Provider;
@@ -22,6 +24,7 @@ public class AppConfig {
 
     @Bean
     public ModelMapper modelMapper(){
+        final ModelMapper modelMapper = new ModelMapper();
 
         Provider<User> newUserProvider = req -> new User()
                 .setRoles(Set.of(roleService.getRoleByName("USER")))
@@ -29,7 +32,7 @@ public class AppConfig {
 
 
 
-        return new ModelMapper();
+        return modelMapper;
     }
     @Bean
     public PasswordEncoder passwordEncoder(){
