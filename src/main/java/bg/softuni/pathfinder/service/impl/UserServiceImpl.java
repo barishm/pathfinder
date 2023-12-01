@@ -1,5 +1,6 @@
 package bg.softuni.pathfinder.service.impl;
 
+import bg.softuni.pathfinder.exeptions.LoginCredentialsException;
 import bg.softuni.pathfinder.exeptions.UserNotFoundException;
 import bg.softuni.pathfinder.model.User;
 import bg.softuni.pathfinder.model.dto.UserLoginDTO;
@@ -44,14 +45,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean login(UserLoginDTO userLoginDTO) {
-        User user = this.userRepository.findByUsername(userLoginDTO.getUsername()).orElseThrow(() -> new UserNotFoundException("User not found!"));
+    public boolean login(UserLoginDTO userLoginDTO) throws LoginCredentialsException {
+        User user = this.userRepository.findByUsername(userLoginDTO.getUsername()).orElseThrow(() -> new LoginCredentialsException("User not found!"));
         if(user == null){
-            throw new IllegalArgumentException("User with that username is not present");
+            throw new LoginCredentialsException("User with that username is not present");
         }
         boolean passwordMatch = passwordEncoder.matches(userLoginDTO.getPassword(), user.getPassword());
         if(!passwordMatch) {
-            throw new IllegalArgumentException("User entered incorrect password");
+            throw new LoginCredentialsException("User entered incorrect password");
         }
 
         loggedUser.setUsername(user.getUsername());

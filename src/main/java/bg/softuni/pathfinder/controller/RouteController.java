@@ -10,6 +10,7 @@ import bg.softuni.pathfinder.service.RouteService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -53,7 +54,11 @@ public class RouteController {
     }
 
     @GetMapping("/add")
-    public ModelAndView addRoute() {
+    public ModelAndView addRoute(Model model) {
+        if (!model.containsAttribute("addRouteDTO")) {
+            model.addAttribute("addRouteDTO", new AddRouteDTO());
+        }
+
         ModelAndView modelAndView = new ModelAndView("add-route");
         modelAndView.addObject("levels",Level.getEnumsAsList());
         modelAndView.addObject("categories", CategoryNames.values());
@@ -66,15 +71,13 @@ public class RouteController {
         if(bindingResult.hasErrors()){
             final String attributeName = "addRouteDTO";
             redirectAttributes.addFlashAttribute(attributeName,addRouteDTO).addFlashAttribute(bindingResultPath + DOT + attributeName,bindingResult);
-            modelAndView.setViewName("redirect:/add");
+            modelAndView.setViewName("redirect:add");
         }else {
             routeService.add(addRouteDTO);
-            modelAndView.setViewName("redirect:/routes");
+            modelAndView.setViewName("redirect:/");
         }
 
         return modelAndView;
     }
-
-
 
 }
